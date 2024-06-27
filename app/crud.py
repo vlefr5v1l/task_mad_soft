@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.src import models, schemas
+from app import schemas, models
 
 
 def get_memes(db: Session, skip: int = 0, limit: int = 10):

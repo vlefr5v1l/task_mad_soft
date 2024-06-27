@@ -28,9 +28,9 @@ services:
   app:
     build:
       context: .
-      dockerfile: app/Dockerfile
+      dockerfile: Dockerfile
     volumes:
-      - ./app/src:/app/app
+      - ./app:/app/app
     ports:
       - "8000:8000"
     depends_on:
@@ -42,9 +42,9 @@ services:
   media_service:
     build:
       context: .
-      dockerfile: media_service/Dockerfile
+      dockerfile: Dockerfile.media_service
     volumes:
-      - ./media_service/src:/app/media_service
+      - ./media_service:/app/media_service
     ports:
       - "8001:8001"
     depends_on:

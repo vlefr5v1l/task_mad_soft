@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.src import models, crud, dependencies, schemas
+from app import dependencies, crud, schemas, models
 from .database import engine
 import uvicorn
 
