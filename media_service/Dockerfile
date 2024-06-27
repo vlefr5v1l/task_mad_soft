@@ -1,0 +1,10 @@
+# Dockerfile для media_service
+FROM python:3.11
+
+WORKDIR /app
+
+COPY ./media_service /app/media_service
+
+RUN pip install fastapi uvicorn boto3
+
+CMD ["uvicorn", "media_service.src.main:app", "--host", "0.0.0.0", "--port", "8001"]
