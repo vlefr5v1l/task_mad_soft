@@ -36,13 +36,7 @@
 
 4. Документация API (Swagger UI): [http://localhost:8000/docs](http://localhost:8000/docs)
 
-## Запуск тестов
 
-Для запуска тестов используйте следующую команду:
-
-```bash
-docker-compose run public_api pytest
-```
 
 ## Структура проекта
 
