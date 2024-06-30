@@ -28,7 +28,7 @@ services:
       timeout: 5s
       retries: 5
 
-  mad_soft:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
