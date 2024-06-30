@@ -36,7 +36,7 @@
 
 4. Документация API (Swagger UI): [http://localhost:8000/docs](http://localhost:8000/docs)
 
-
+5. Запуск тестов происходит автоматически при запуске docker-compose
 
 ## Структура проекта
 
