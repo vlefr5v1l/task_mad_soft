@@ -53,5 +53,5 @@ services:
     depends_on:
       - db
       - minio
-      - mad_soft
+      - app
     command: [ "pytest", "/mad_soft/tests" ]
