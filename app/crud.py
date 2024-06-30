@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.src import schemas, models
+from app import schemas, models
 from fastapi import HTTPException
 
 
@@ -23,11 +23,13 @@ def update_meme(db: Session, meme_id: int, meme: schemas.MemeUpdate):
     db_meme = db.query(models.Meme).filter(models.Meme.id == meme_id).first()
     if db_meme is None:
         raise HTTPException(status_code=404, detail="Meme not found")
+
     db_meme.text = meme.text
     db_meme.image_url = meme.image_url
     db.commit()
     db.refresh(db_meme)
     return db_meme
+
 
 def delete_meme(db: Session, meme_id: int):
     db_meme = db.query(models.Meme).filter(models.Meme.id == meme_id).first()
@@ -36,4 +38,3 @@ def delete_meme(db: Session, meme_id: int):
     db.delete(db_meme)
     db.commit()
     return db_meme
-

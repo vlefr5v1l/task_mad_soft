@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.8"
 
 services:
   db:
@@ -7,6 +7,11 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: memesdb
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user -d memesdb" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   minio:
     image: minio/minio
@@ -17,24 +22,36 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     command: server /data --console-address ":9001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  app:
-    container_name: app
+  mad_soft:
     build:
-      context: ./app/
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: memesdb
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  app_tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - db
       - minio
-
-  media_service:
-    container_name: media_service
-    build:
-      context: ./media_service/
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8001"
-    depends_on:
-      - minio
+      - mad_soft
+    command: [ "pytest", "/mad_soft/tests" ]
